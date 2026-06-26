@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>تفاصيل الشقة · منازل الود</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1b2430; --paper:#ffffff; --bg:#e8e6e1;
+  --brand:#1c3a6e; --brand-700:#13294e; --gold:#e0a437;
+  --line:#e2dfd8; --shadow:0 1px 2px rgba(20,28,44,.05), 0 14px 40px -18px rgba(20,28,44,.28);
+  --radius:18px; --radius-sm:12px; --maxw:1160px;
+}
+* { box-sizing:border-box }
+html { scroll-behavior:smooth }
+body { margin:0; background:var(--bg); color:var(--ink); font-family:'DM Sans',system-ui,sans-serif; font-size:16px; line-height:1.6 }
+h1,h2 { margin:0; font-weight:600; color:var(--brand-700) }
+p { margin:0 }
+a { color:inherit; text-decoration:none }
+img { display:block; max-width:100% }
+.wrap { max-width:var(--maxw); margin:0 auto; padding:0 22px }
+
+/* HEADER */
+.head { background:rgba(19,41,78,.9); color:#fff; padding:16px 0; position:sticky; top:0; z-index:50 }
+.head-in { display:flex; align-items:center; justify-content:space-between; gap:16px }
+.back-btn { display:flex; align-items:center; gap:8px; font-weight:600; cursor:pointer }
+.back-btn:hover { color:var(--gold) }
+.back-btn svg { width:20px; height:20px }
+.langs { display:flex; gap:10px }
+.lang-btn { border:1px solid rgba(255,255,255,.3); background:transparent; color:#fff; border-radius:999px; padding:6px 12px; font-size:.85rem; cursor:pointer }
+.lang-btn:hover { border-color:#fff }
+
+/* CONTENT */
+.content { padding:40px 0 }
+.apt-info { background:var(--paper); border-radius:var(--radius); padding:30px; margin-bottom:40px; box-shadow:var(--shadow) }
+.apt-title { font-size:2rem; margin-bottom:16px }
+.apt-meta { display:flex; gap:20px; flex-wrap:wrap; color:#666; margin-bottom:20px }
+.price { font-size:1.4rem; font-weight:700; color:var(--brand) }
+
+/* GALLERY */
+.gallery { margin-bottom:40px }
+.gallery h2 { margin-bottom:20px }
+.gallery-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(180px,1fr)); gap:12px }
+.gallery-item { cursor:pointer; border-radius:var(--radius-sm); overflow:hidden; background:#f0f0f0 }
+.gallery-item img { width:100%; height:220px; object-fit:cover; transition:transform .3s }
+.gallery-item:hover img { transform:scale(1.05) }
+
+/* LIGHTBOX */
+.lightbox { display:none; position:fixed; inset:0; z-index:100; background:rgba(0,0,0,.95); align-items:center; justify-content:center }
+.lightbox.open { display:flex }
+.lb-close { position:absolute; top:20px; right:20px; width:40px; height:40px; background:none; border:0; color:#fff; font-size:2rem; cursor:pointer; z-index:101 }
+.lb-img { max-width:90vw; max-height:90vh; object-fit:contain }
+.lb-nav { position:absolute; top:50%; transform:translateY(-50%); width:100%; display:flex; justify-content:space-between; padding:0 20px; z-index:101 }
+.lb-btn { width:40px; height:40px; background:rgba(255,255,255,.2); color:#fff; border:0; border-radius:6px; cursor:pointer; font-size:1.2rem }
+.lb-btn:hover { background:rgba(255,255,255,.4) }
+
+/* BOOKING */
+.booking { background:var(--paper); border-radius:var(--radius); padding:30px; box-shadow:var(--shadow) }
+.booking h2 { margin-bottom:20px }
+.booking-note { background:#f0f5ff; border-left:4px solid var(--brand); padding:16px; border-radius:var(--radius-sm); margin-bottom:20px; color:#666 }
+.smoobu-wrapper { display:flex; justify-content:center; padding:20px 0; overflow-x:auto }
+
+/* FOOTER */
+.footer { background:rgba(19,41,78,.95); color:#fff; padding:40px 0; margin-top:60px; text-align:center }
+.footer p { margin:6px 0 }
+
+@media (max-width:768px) {
+  .apt-title { font-size:1.4rem }
+  .gallery-grid { grid-template-columns:repeat(2,1fr) }
+  .lb-nav { padding:0 10px }
+  .apt-meta { flex-direction:column; gap:8px }
+}
+</style>
+</head>
+<body>
+
+<header class="head">
+  <div class="wrap head-in">
+    <a href="index.html" class="back-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      <span>العودة</span>
+    </a>
+    <div class="langs">
+      <button class="lang-btn" onclick="setLang('ar')">العربية</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</header>
+
+<main class="content">
+  <div class="wrap">
+    <!-- APARTMENT INFO -->
+    <div class="apt-info">
+      <h1 class="apt-title" id="aptTitle"></h1>
+      <div class="apt-meta">
+        <span id="aptType"></span>
+        <span class="price" id="aptPrice"></span>
+      </div>
+    </div>
+
+    <!-- GALLERY -->
+    <div class="gallery">
+      <h2>الصور</h2>
+      <div class="gallery-grid" id="galleryGrid"></div>
+    </div>
+
+    <!-- BOOKING -->
+    <div class="booking">
+      <h2>احجز الآن</h2>
+      <div class="booking-note">اختر أيام إقامتك من التقويم أدناه والأيام الخضراء متاحة للحجز</div>
+      <div class="smoobu-wrapper" id="smoobuFrame"></div>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <p><strong>منازل الود · Manazil Alwed</strong></p>
+    <p>للحجز والاستفسارات</p>
+    <p><a href="https://wa.me/966591602666">WhatsApp: +966 59 160 2666</a></p>
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" id="lbClose">&times;</button>
+  <img id="lbImg" alt="">
+  <div class="lb-nav">
+    <button class="lb-btn" id="lbPrev">❮</button>
+    <button class="lb-btn" id="lbNext">❯</button>
+  </div>
+</div>
+
+<script>
+// APARTMENT DATA
+const UNITS = {
+  u1:{ar:"الصفا · غرفة واحدة (شقة ١)",en:"Al-Safa · one bedroom (Unit 1)",price:160,smoobuId:"3394831",smoobuToken:"b61607524883dccd4127b065e5bf309db515a14c40f6dc2fae0d35f1bea042b1"},
+  u2:{ar:"الصفا · غرفة واحدة (شقة ٢)",en:"Al-Safa · one bedroom (Unit 2)",price:160,smoobuId:"3394836",smoobuToken:"a0acc56266c07830bb5eea8fba98524ec9480b69777873617d5c8336916119a0"},
+  u3:{ar:"الصفا · غرفتان",en:"Al-Safa · two bedrooms",price:200,smoobuId:"3394841",smoobuToken:"84504744879bfa3e9532b544a7ba07cc1d523726969c254433062c82715927a5"},
+  u4:{ar:"أبحر · غرفتان",en:"Abhur · two bedrooms",price:200,smoobuId:"3394846",smoobuToken:"0f4ea0ed3b03863ffc8dbcd47fe9b2a470aedf95bfd5b35fd8d00f22a8fedf92"}
+};
+
+const GALLERY = {
+  u1:["safa-1br-01.jpg","safa-1br-02.jpg","safa-1br-03.jpg","safa-1br-04.jpg","safa-1br-05.jpg","safa-1br-06.jpg","safa-1br-07.jpg","safa-1br-08.jpg","safa-1br-09.jpg","safa-1br-10.jpg","safa-1br-11.jpg","safa-1br-12.jpg","safa-1br-13.jpg","safa-1br-14.jpg","safa-1br-15.jpg","safa-1br-16.jpg","safa-1br-17.jpg"],
+  u2:["safa-2br-01.jpg","safa-2br-02.jpg","safa-2br-03.jpg","safa-2br-04.jpg","safa-2br-05.jpg","safa-2br-06.jpg","safa-2br-07.jpg","safa-2br-08.jpg","safa-2br-09.jpg","safa-2br-10.jpg","safa-2br-11.jpg","safa-2br-12.jpg","safa-2br-13.jpg","safa-2br-14.jpg","safa-2br-15.jpg"],
+  u3:["safa-u3-01.jpg","safa-u3-02.jpg","safa-u3-03.jpg","safa-u3-04.jpg","safa-u3-05.jpg","safa-u3-06.jpg","safa-u3-07.jpg","safa-u3-08.jpg","safa-u3-09.jpg","safa-u3-10.jpg","safa-u3-11.jpg","safa-u3-12.jpg","safa-u3-13.jpg","safa-u3-14.jpg","safa-u3-15.jpg","safa-u3-16.jpg","safa-u3-17.jpg","safa-u3-18.jpg","safa-u3-19.jpg","safa-u3-20.jpg"],
+  u4:["abhur-2br-01.jpg","abhur-2br-02.jpg","abhur-2br-03.jpg","abhur-2br-04.jpg","abhur-2br-05.jpg","abhur-2br-06.jpg","abhur-2br-07.jpg","abhur-2br-08.jpg","abhur-2br-09.jpg","abhur-2br-10.jpg","abhur-2br-11.jpg","abhur-2br-12.jpg","abhur-2br-13.jpg","abhur-2br-14.jpg","abhur-2br-15.jpg","abhur-2br-16.jpg"]
+};
+
+let lang='ar', currentUnit='u1', lbList=[], lbIdx=0;
+
+function getUnit() {
+  const p=new URLSearchParams(window.location.search);
+  currentUnit=p.get('unit')||'u1';
+  if(!UNITS[currentUnit]) currentUnit='u1';
+}
+
+function render() {
+  const u=UNITS[currentUnit];
+  const name=lang==='ar'?u.ar:u.en;
+  document.getElementById('aptTitle').textContent=name;
+  document.getElementById('aptType').textContent=lang==='ar'?'شقة مفروشة':'Furnished Apartment';
+  document.getElementById('aptPrice').textContent=lang==='ar'?`${u.price} ر.س / الليلة`:`SAR ${u.price} / night`;
+  
+  // GALLERY
+  const grid=document.getElementById('galleryGrid');
+  grid.innerHTML='';
+  (GALLERY[currentUnit]||[]).forEach((img,i)=>{
+    const div=document.createElement('div');
+    div.className='gallery-item';
+    div.innerHTML=`<img src="img/${img}" alt="Photo ${i+1}" loading="lazy">`;
+    div.addEventListener('click',()=>openLb(GALLERY[currentUnit],i));
+    grid.appendChild(div);
+  });
+  
+  // SMOOBU
+  const frame=document.getElementById('smoobuFrame');
+  frame.innerHTML=`
+    <div id="smoobuCalendarIframe">
+      <link rel="stylesheet" type="text/css" href="https://login.smoobu.com/css/singleCalendarWidgetIframe.css">
+      <iframe style="display:none" class="mobile" height="540px" width="280px" src="https://login.smoobu.com/en/cockpit/widget/show-calendar-iframe/${u.smoobuId}/${u.smoobuToken}"></iframe>
+      <iframe class="desktop" height="600px" width="1000px" src="https://login.smoobu.com/en/cockpit/widget/show-calendar-iframe/${u.smoobuId}/${u.smoobuToken}"></iframe>
+    </div>
+  `;
+  const mobile=frame.querySelector('.mobile');
+  const desktop=frame.querySelector('.desktop');
+  function handleResize(){
+    if(window.innerWidth<=768){mobile.style.display='block'; desktop.style.display='none';}
+    else{mobile.style.display='none'; desktop.style.display='block';}
+  }
+  handleResize();
+  window.addEventListener('resize',handleResize);
+}
+
+function setLang(l) { lang=l; render(); }
+
+// LIGHTBOX
+function openLb(list,idx) { lbList=list; lbIdx=idx; renderLb(); document.getElementById('lightbox').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeLb() { document.getElementById('lightbox').classList.remove('open'); document.body.style.overflow=''; }
+function renderLb() { document.getElementById('lbImg').src='img/'+lbList[lbIdx]; }
+function lbNext() { lbIdx=(lbIdx+1)%lbList.length; renderLb(); }
+function lbPrev() { lbIdx=(lbIdx-1+lbList.length)%lbList.length; renderLb(); }
+
+document.getElementById('lbClose').addEventListener('click',closeLb);
+document.getElementById('lbNext').addEventListener('click',lbNext);
+document.getElementById('lbPrev').addEventListener('click',lbPrev);
+document.getElementById('lightbox').addEventListener('click',e=>{if(e.target.id==='lightbox')closeLb();});
+document.addEventListener('keydown',e=>{if(!document.getElementById('lightbox').classList.contains('open'))return;if(e.key==='ArrowRight')lbNext();else if(e.key==='ArrowLeft')lbPrev();else if(e.key==='Escape')closeLb();});
+
+// INIT
+getUnit();
+render();
+</script>
+</body>
+</html>
