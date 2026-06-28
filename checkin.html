@@ -140,6 +140,19 @@ button{font-family:inherit; cursor:pointer}
   }
 </script>
 <!-- ============ نهاية PWA ============ -->
+<!-- ============ OneSignal · إشعارات الويب ============ -->
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "0c258351-2ac2-4683-a2ac-454fd4e6d9bd",
+      serviceWorkerPath: "push/onesignal/OneSignalSDKWorker.js",
+      serviceWorkerParam: { scope: "/push/onesignal/" }
+    });
+  });
+</script>
+<!-- ============ نهاية OneSignal ============ -->
 </head>
 
 <body class="lang-ar">

@@ -20,6 +20,7 @@
 <meta name="description" content="شقق مفروشة للإيجار في جدة — الصفا وأبحر. أسعار واضحة تبدأ من ١٨٠ ر.س لليلة، وحجز مباشر أونلاين.">
 
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" as="image" href="abhur-2br-09.jpg" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600&display=swap" rel="stylesheet">
@@ -320,6 +321,19 @@ a.u-addr:hover span{text-decoration:underline; text-underline-offset:2px}
   }
 </script>
 <!-- ============ نهاية PWA ============ -->
+<!-- ============ OneSignal · إشعارات الويب ============ -->
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "0c258351-2ac2-4683-a2ac-454fd4e6d9bd",
+      serviceWorkerPath: "push/onesignal/OneSignalSDKWorker.js",
+      serviceWorkerParam: { scope: "/push/onesignal/" }
+    });
+  });
+</script>
+<!-- ============ نهاية OneSignal ============ -->
 </head>
 
 <body class="lang-ar">
@@ -334,6 +348,7 @@ a.u-addr:hover span{text-decoration:underline; text-underline-offset:2px}
     <nav class="nav">
       <a href="#locations" data-i18n="nav.locs">المواقع</a>
       <a href="#apartments" data-i18n="nav.apts">الشقق</a>
+      <a href="offers.html" data-i18n="nav.offers">العروض</a>
       <a href="#about" data-i18n="nav.about">من نحن</a>
       <a href="#contact" data-i18n="nav.contact">تواصل معنا</a>
       <a href="checkin.html" data-i18n="nav.checkin">تسجيل الوصول</a>
@@ -351,6 +366,7 @@ a.u-addr:hover span{text-decoration:underline; text-underline-offset:2px}
     <button class="drawer-close" id="drawerClose" aria-label="Close">&times;</button>
     <a href="#locations" data-i18n="nav.locs">المواقع</a>
     <a href="#apartments" data-i18n="nav.apts">الشقق</a>
+    <a href="offers.html" data-i18n="nav.offers">العروض</a>
     <a href="#about" data-i18n="nav.about">من نحن</a>
     <a href="#contact" data-i18n="nav.contact">تواصل معنا</a>
     <a href="checkin.html" data-i18n="nav.checkin">تسجيل الوصول</a>
@@ -364,7 +380,7 @@ a.u-addr:hover span{text-decoration:underline; text-underline-offset:2px}
 <section class="hero">
   <div class="hero-bg">
     <!-- PHOTO: hero / واجهة — currently an Abhur living-room shot; swap for any preferred photo -->
-    <img src="abhur-2br-09.jpg" alt="" loading="eager">
+    <img src="abhur-2br-09.jpg" alt="" loading="eager" fetchpriority="high" decoding="async">
   </div>
   <div class="wrap hero-in">
     <p class="eyebrow" data-i18n="hero.eyebrow">شقق مفروشة في جدة — الصفا وأبحر</p>
@@ -572,6 +588,7 @@ a.u-addr:hover span{text-decoration:underline; text-underline-offset:2px}
       <nav class="foot-links">
         <a href="#locations" data-i18n="nav.locs">المواقع</a>
         <a href="#apartments" data-i18n="nav.apts">الشقق</a>
+        <a href="offers.html" data-i18n="nav.offers">العروض</a>
         <a href="#contact" data-i18n="nav.contact">تواصل معنا</a>
         <a href="checkin.html" data-i18n="nav.checkin">تسجيل الوصول</a>
       </nav>
@@ -723,7 +740,7 @@ const GALLERY = {
 const I18N = {
   ar:{
     "brand":"منازل الود","toggle":"English",
-    "nav.locs":"المواقع","nav.apts":"الشقق","nav.about":"من نحن","nav.contact":"تواصل معنا","nav.checkin":"تسجيل الوصول","apt.checkin":"تسجيل الوصول","nav.book":"احجز الآن",
+    "nav.locs":"المواقع","nav.apts":"الشقق","nav.offers":"العروض","nav.about":"من نحن","nav.contact":"تواصل معنا","nav.checkin":"تسجيل الوصول","apt.checkin":"تسجيل الوصول","nav.book":"احجز الآن",
     "hero.eyebrow":"شقق مفروشة في جدة — الصفا وأبحر",
     "hero.title":"إقامة مريحة في قلب جدة",
     "hero.sub":"شقق مفروشة بأسعار واضحة — للزيارة والعمرة والإجازات.",
@@ -763,7 +780,7 @@ const I18N = {
   },
   en:{
     "brand":"Manazil Alwed","toggle":"العربية",
-    "nav.locs":"Locations","nav.apts":"Apartments","nav.about":"About","nav.contact":"Contact","nav.checkin":"Check-in","apt.checkin":"Check-in","nav.book":"Book now",
+    "nav.locs":"Locations","nav.apts":"Apartments","nav.offers":"Offers","nav.about":"About","nav.contact":"Contact","nav.checkin":"Check-in","apt.checkin":"Check-in","nav.book":"Book now",
     "hero.eyebrow":"Furnished apartments in Jeddah — Al-Safa & Abhur",
     "hero.title":"A comfortable stay in the heart of Jeddah",
     "hero.sub":"Furnished apartments with clear prices — for visits, Umrah, and holidays.",
