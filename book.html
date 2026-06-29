@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<!--
+  ===================================================================
+  منازل الود · صفحة الحجز (Booking) — bilingual AR / EN
+  ===================================================================
+  العميل يختار التواريخ لكل شقة، ويُحسب الخصم تلقائياً ويظهر له كود الخصم لإدخاله في Smoobu:
+    • إقامة الأسبوع (٧ ليالٍ فأكثر) = ٧٪ · الكود STAY7
+    • الحجز المبكر (الوصول بعد ٢٨ يوماً أو أكثر) = ٥٪ · الكود EARLY
+    • الاثنان معاً = ١٢٪ · الكود EARLYSTAY7
+  ثم يكمل الحجز والدفع عبر Smoobu.
+
+  كيف تعدّل نِسب الخصم / الشروط لاحقاً:  ابحث عن  const DISCOUNTS
+  كيف تعدّل الأسعار:                      ابحث عن  const UNITS
+  ===================================================================
+-->
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>منازل الود · احجز الآن</title>
+<meta name="description" content="احجز شقتك في منازل الود — الصفا وأبحر بجدة. حدّد تواريخك ويظهر لك العرض تلقائياً، وحجز مباشر أونلاين.">
+
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600&display=swap" rel="stylesheet">
+
+<style>
+/* ============================ TOKENS ============================ */
+:root{
+  --ink:#1b2430; --ink-soft:#49525f; --muted:#6b7482;
+  --paper:#ffffff; --bg:#e8e6e1;
+  --brand:#1c3a6e; --brand-700:#13294e; --brand-300:#88a4d4; --navy:#13294e;
+  --gold:#e0a437; --gold-700:#b9852a;
+  --ok:#1f9d57; --ok-700:#157a42;
+  --line:#e2dfd8;
+  --shadow:0 1px 2px rgba(20,28,44,.05), 0 14px 40px -18px rgba(20,28,44,.28);
+  --shadow-sm:0 1px 2px rgba(20,28,44,.06), 0 6px 18px -12px rgba(20,28,44,.25);
+  --radius:18px; --radius-sm:12px; --maxw:1160px;
+}
+body.lang-en{ --font-display:'Fraunces',Georgia,serif; --font-body:'DM Sans',system-ui,sans-serif; }
+body.lang-ar{ --font-display:-apple-system,BlinkMacSystemFont,'SF Arabic',system-ui,'Segoe UI',Tahoma,Arial,sans-serif; --font-body:-apple-system,BlinkMacSystemFont,'SF Arabic',system-ui,'Segoe UI',Tahoma,Arial,sans-serif; }
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--font-body); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;}
+h1,h2,h3,h4{font-family:var(--font-display); margin:0; line-height:1.14; font-weight:600; letter-spacing:-.01em; color:var(--navy)}
+body.lang-ar h1, body.lang-ar h2, body.lang-ar h3, body.lang-ar h4{letter-spacing:0; line-height:1.3}
+p{margin:0} a{color:inherit; text-decoration:none} img{display:block; max-width:100%}
+button{font-family:inherit; cursor:pointer}
+:focus-visible{outline:3px solid var(--gold); outline-offset:2px; border-radius:6px}
+.wrap{max-width:var(--maxw); margin-inline:auto; padding-inline:22px}
+.eyebrow{font-family:var(--font-body); font-size:.78rem; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:var(--gold-700)}
+body.lang-ar .eyebrow{letter-spacing:.04em; font-size:.86rem; text-transform:none}
+
+/* ============================ HEADER ============================ */
+.head{position:sticky; top:0; z-index:50; background:rgba(19,41,78,.9); backdrop-filter:saturate(140%) blur(12px); border-bottom:1px solid rgba(255,255,255,.1)}
+.head-in{display:flex; align-items:center; gap:18px; height:68px}
+.brand{display:flex; align-items:center; gap:10px; font-family:var(--font-display); font-weight:600; font-size:1.35rem; color:#fff}
+.brand svg{width:26px; height:26px; flex:none}
+.brand .name{line-height:1}
+.nav{display:flex; align-items:center; gap:26px; margin-inline-start:auto}
+.nav a{font-size:.95rem; color:rgba(255,255,255,.82); font-weight:500; padding-block:6px; position:relative}
+.nav a::after{content:""; position:absolute; inset-inline:0; bottom:0; height:2px; background:var(--gold); transform:scaleX(0); transition:transform .25s}
+.nav a:hover{color:#fff} .nav a:hover::after{transform:scaleX(1)}
+.nav a.active{color:#fff} .nav a.active::after{transform:scaleX(1)}
+.head-cta{display:flex; align-items:center; gap:10px}
+.lang-btn{border:1px solid var(--line); background:var(--paper); color:var(--ink); border-radius:999px; padding:8px 14px; font-size:.86rem; font-weight:600; white-space:nowrap; transition:border-color .2s}
+.lang-btn:hover{border-color:var(--brand-300)}
+.head .lang-btn{border-color:rgba(255,255,255,.3); background:transparent; color:#fff}
+.head .lang-btn:hover{border-color:rgba(255,255,255,.65)}
+.btn{border:0; border-radius:999px; padding:11px 20px; font-weight:600; font-size:.95rem; background:var(--gold); color:#3a2a06; transition:transform .12s, background .2s; box-shadow:var(--shadow-sm)}
+.btn:hover{background:var(--gold-700); color:#fff} .btn:active{transform:translateY(1px)}
+.head .btn{display:none}
+.burger{display:inline-flex; flex-direction:column; gap:5px; background:none; border:0; padding:8px}
+.burger span{width:24px; height:2px; background:#fff; border-radius:2px}
+.drawer{position:fixed; inset:0; z-index:60; background:rgba(20,28,44,.45); opacity:0; pointer-events:none; transition:opacity .25s}
+.drawer.open{opacity:1; pointer-events:auto}
+.drawer-panel{position:absolute; inset-block:0; inset-inline-end:0; width:min(86%,340px); background:var(--paper); padding:26px 24px; display:flex; flex-direction:column; gap:6px; transform:translateX(12%); transition:transform .28s; box-shadow:var(--shadow)}
+[dir="rtl"] .drawer-panel{transform:translateX(-12%)}
+.drawer.open .drawer-panel{transform:translateX(0)}
+.drawer-panel a{padding:13px 6px; font-size:1.05rem; font-weight:500; border-bottom:1px solid var(--line)}
+.drawer-panel .btn{margin-top:14px; text-align:center}
+.drawer-close{align-self:flex-end; background:none; border:0; font-size:1.6rem; line-height:1; color:var(--muted); padding:4px}
+
+/* ============================ HERO ============================ */
+.bhero{position:relative; color:#fff; overflow:hidden; background:linear-gradient(135deg,var(--brand-700),var(--brand) 60%,#2b4f8f)}
+.bhero-in{position:relative; z-index:1; padding-block:48px 56px}
+.bhero .eyebrow{color:#e7c98b}
+.bhero h1{font-size:clamp(1.9rem,5vw,2.8rem); margin-top:12px; color:#fff}
+.bhero p.sub{margin-top:14px; max-width:56ch; font-size:clamp(1rem,2.2vw,1.14rem); color:rgba(255,255,255,.9)}
+.offers-hint{margin-top:20px; display:flex; flex-wrap:wrap; gap:10px}
+.offers-hint .chip{display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.25); border-radius:999px; padding:8px 14px; font-size:.88rem; font-weight:600}
+.offers-hint .chip b{color:var(--gold)}
+
+/* ============================ BOOKING CARDS ============================ */
+section.block{padding-block:46px}
+.rooms{display:grid; gap:24px; grid-template-columns:1fr; margin-top:6px}
+.room{background:var(--paper); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow-sm); display:flex; flex-direction:column}
+.room .ph{aspect-ratio:16/10; background:linear-gradient(135deg,#e4e9f1,#d2dbe8); overflow:hidden; position:relative}
+.room .ph img{width:100%; height:100%; object-fit:cover}
+.room .ph .price-tag{position:absolute; bottom:12px; inset-inline-start:12px; background:rgba(255,255,255,.94); color:var(--brand); font-weight:700; font-size:.9rem; padding:7px 13px; border-radius:999px; box-shadow:var(--shadow-sm)}
+.room .body{padding:22px; display:flex; flex-direction:column; gap:16px}
+.room h3{font-size:1.32rem}
+.dates{display:grid; gap:12px; grid-template-columns:1fr 1fr}
+.dfield{display:flex; flex-direction:column; gap:6px}
+.dfield label{font-size:.82rem; font-weight:600; color:var(--ink-soft)}
+.dfield input{width:100%; border:1px solid var(--line); border-radius:11px; padding:12px 13px; font-family:inherit; font-size:1rem; background:#fbfaf7; color:var(--ink); appearance:none; -webkit-appearance:none}
+.dfield input:focus{outline:0; border-color:var(--brand-300); background:#fff}
+.dfield input::-webkit-calendar-picker-indicator{filter:saturate(0) opacity(.55)}
+.check-btn{border:0; border-radius:var(--radius-sm); background:var(--brand); color:#fff; font-weight:600; font-size:1rem; padding:13px; transition:background .2s}
+.check-btn:hover{background:var(--brand-700)}
+
+/* result box */
+.result{display:none; border-radius:var(--radius-sm); border:1px solid var(--line); overflow:hidden}
+.result.show{display:block}
+.result.has-offer{border-color:var(--gold)}
+.result .err{padding:14px 16px; background:#fdf3f2; color:#9b3b34; font-size:.92rem}
+.result .ok-head{display:flex; align-items:center; gap:9px; padding:13px 16px; background:rgba(31,157,87,.1); color:var(--ok-700); font-weight:700; font-size:.96rem}
+.result.has-offer .ok-head{background:rgba(224,164,55,.14); color:var(--gold-700)}
+.result .ok-head svg{width:19px; height:19px; flex:none}
+.result .rows{padding:14px 16px; display:flex; flex-direction:column; gap:9px; font-size:.95rem}
+.result .row{display:flex; align-items:center; justify-content:space-between; gap:12px}
+.result .row .k{color:var(--muted)}
+.result .row .v{font-weight:600}
+.result .row.total{border-top:1px solid var(--line); padding-top:11px; margin-top:2px; font-size:1.08rem}
+.result .row.total .v{color:var(--brand); font-weight:700}
+.result .row .was{color:var(--muted); text-decoration:line-through; font-weight:500; font-size:.86rem; margin-inline-end:6px}
+.result .welcome{padding:12px 16px; background:#f7f5f0; border-top:1px solid var(--line); font-size:.93rem; color:var(--ink-soft); display:flex; align-items:center; gap:8px}
+.result .welcome svg{width:17px;height:17px;flex:none;color:var(--gold-700)}
+.coupon{margin:0 16px 14px; border:1px dashed var(--gold); border-radius:10px; padding:11px 13px; background:#fffaf0; display:flex; align-items:center; justify-content:space-between; gap:10px}
+.coupon .c-txt{font-size:.86rem; color:var(--ink-soft); line-height:1.4}
+.coupon .c-txt b{color:var(--gold-700); font-size:1rem; letter-spacing:.04em}
+.coupon .c-copy{flex:none; border:1px solid var(--gold); background:#fff; color:var(--gold-700); border-radius:8px; padding:7px 12px; font-size:.82rem; font-weight:600; white-space:nowrap}
+.coupon .c-copy:hover{background:var(--gold); color:#3a2a06}
+.result .row.disc .k{color:var(--gold-700); font-weight:600}
+.result .row.disc .v{color:var(--gold-700)}
+/* مبلغ تأكيد الحجز (العربون) */
+.deposit{margin:0 16px 12px; border-radius:10px; background:#eef3fb; border:1px solid #d4e0f2; padding:12px 14px}
+.deposit .dep-main{display:flex; align-items:center; justify-content:space-between; gap:10px; font-weight:700; color:var(--brand)}
+.deposit .dep-main b{font-size:1.12rem; color:var(--brand-700)}
+.deposit .dep-note{display:block; margin-top:6px; font-size:.82rem; color:var(--ink-soft); line-height:1.5}
+/* تنبيهات شروط الحجز */
+.policy{margin:0 16px 14px; display:flex; flex-direction:column; gap:8px}
+.policy .pol{display:flex; align-items:flex-start; gap:8px; font-size:.82rem; color:var(--ink-soft); line-height:1.5; background:#fbf7ef; border:1px solid #efe4cf; border-radius:9px; padding:9px 11px}
+.policy .pol svg{width:16px; height:16px; flex:none; margin-top:2px; color:var(--gold-700)}
+/* صندوق شروط الحجز الثابت */
+.bk-terms{margin-top:28px; background:var(--paper); border:1px solid var(--line); border-radius:var(--radius); padding:22px 24px; box-shadow:var(--shadow-sm)}
+.bk-terms h3{font-size:1.18rem; margin-bottom:14px}
+.bk-terms-list{display:grid; gap:11px}
+.bk-term{display:flex; align-items:flex-start; gap:11px; font-size:.94rem; color:var(--ink-soft); line-height:1.6}
+.bk-term svg{width:20px; height:20px; flex:none; margin-top:2px; color:var(--brand)}
+.book-now{margin:0; border:0; border-radius:var(--radius-sm); background:var(--ok); color:#fff; font-weight:700; font-size:1.02rem; padding:14px; display:flex; align-items:center; justify-content:center; gap:9px; transition:background .2s}
+.book-now:hover{background:var(--ok-700)}
+.book-now svg{width:18px;height:18px}
+
+/* ============================ SMOOBU MODAL ============================ */
+.book-modal{position:fixed; inset:0; z-index:85; background:rgba(20,28,44,.55); display:none; align-items:flex-start; justify-content:center; padding:20px 12px; overflow-y:auto}
+.book-modal.open{display:flex}
+.book-modal-card{background:#fff; border-radius:18px; width:min(960px,100%); box-shadow:var(--shadow); margin-block:auto; overflow:hidden}
+.book-modal-head{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:16px 20px; border-bottom:1px solid var(--line)}
+.book-modal-head h3{font-size:1.2rem}
+.book-modal-note{font-size:.86rem; color:var(--muted); padding:12px 20px 0}
+.book-modal-body{padding:10px 12px 16px}
+#bookingEngine{width:100%; min-height:520px}
+.modal-close{background:none;border:0;font-size:1.7rem;color:var(--muted); line-height:1; padding:0 4px}
+
+/* ============================ FOOTER ============================ */
+.foot{background:var(--navy); color:#cdd6e2; padding-block:46px 30px; margin-top:30px}
+.foot-top{display:flex; flex-wrap:wrap; gap:26px; justify-content:space-between; align-items:flex-start}
+.foot .brand{color:#fff}
+.foot .brand svg{color:#fff}
+.foot p.tag{color:#9aa8bf; max-width:40ch; margin-top:12px; font-size:.95rem}
+.foot-links{display:flex; gap:22px; flex-wrap:wrap}
+.foot-links a{color:#cdd6e2; font-size:.95rem; background:none; border:0; padding:0; font-family:inherit; cursor:pointer}
+.foot-links a:hover{color:#fff}
+.foot-bottom{border-top:1px solid rgba(255,255,255,.12); margin-top:30px; padding-top:20px; display:flex; flex-wrap:wrap; gap:12px; justify-content:space-between; align-items:center; font-size:.85rem; color:#8a99b3}
+
+.toast{position:fixed; inset-inline:0; bottom:30px; margin-inline:auto; width:max-content; max-width:90vw; z-index:95; background:var(--ink); color:#fff; padding:13px 22px; border-radius:999px; box-shadow:var(--shadow); font-size:.95rem; opacity:0; transform:translateY(14px); transition:opacity .3s, transform .3s; pointer-events:none; text-align:center}
+.toast.show{opacity:1; transform:translateY(0)}
+
+/* ============================ RESPONSIVE ============================ */
+@media (min-width:760px){ .rooms{grid-template-columns:1fr 1fr} }
+@media (min-width:860px){ .head .btn{display:inline-flex} .burger{display:none} .nav{display:flex} .bhero-in{padding-block:60px 70px} }
+@media (max-width:859px){ .nav{display:none} }
+</style>
+
+<!-- ============ PWA · تطبيق الجوال ============ -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#13294e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="منازل الود">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152.png">
+<link rel="apple-touch-icon" sizes="167x167" href="icons/icon-167.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180.png">
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('service-worker.js')
+        .catch(function (err) { console.log('SW registration failed:', err); });
+    });
+  }
+</script>
+<!-- ============ نهاية PWA ============ -->
+<!-- ============ OneSignal · إشعارات الويب ============ -->
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "0c258351-2ac2-4683-a2ac-454fd4e6d9bd",
+      serviceWorkerPath: "push/onesignal/OneSignalSDKWorker.js",
+      serviceWorkerParam: { scope: "/push/onesignal/" }
+    });
+  });
+</script>
+<!-- ============ نهاية OneSignal ============ -->
+</head>
+
+<body class="lang-ar">
+
+<a id="top"></a>
+<header class="head">
+  <div class="wrap head-in">
+    <a class="brand" href="index.html#top" aria-label="Manazil Alwed">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="11.5" y="11.5" width="25" height="25" fill="none" stroke="#e0a437" stroke-width="2.1"/><rect x="11.5" y="11.5" width="25" height="25" fill="none" stroke="#e0a437" stroke-width="2.1" transform="rotate(45 24 24)"/><path d="M17.5 26 L24 20 L30.5 26 M20 24 V30.5 H28 V24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="name" data-i18n="brand">منازل الود</span>
+    </a>
+    <nav class="nav">
+      <a href="index.html#locations" data-i18n="nav.locs">المواقع</a>
+      <a href="index.html#apartments" data-i18n="nav.apts">الشقق</a>
+      <a href="offers.html" data-i18n="nav.offers">العروض</a>
+      <a href="book.html" class="active" data-i18n="nav.book">احجز الآن</a>
+      <a href="index.html#contact" data-i18n="nav.contact">تواصل معنا</a>
+      <a href="checkin.html" data-i18n="nav.checkin">تسجيل الوصول</a>
+        <a href="terms.html" data-i18n="nav.terms">الشروط والأحكام</a>
+        <a href="privacy.html" data-i18n="nav.privacy">سياسة الخصوصية</a>
+    </nav>
+    <div class="head-cta">
+      <button class="lang-btn lang-toggle" data-i18n="toggle">English</button>
+      <a href="book.html" class="btn" data-i18n="nav.book">احجز الآن</a>
+      <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="drawer" id="drawer">
+  <div class="drawer-panel">
+    <button class="drawer-close" id="drawerClose" aria-label="Close">&times;</button>
+    <a href="index.html#locations" data-i18n="nav.locs">المواقع</a>
+    <a href="index.html#apartments" data-i18n="nav.apts">الشقق</a>
+    <a href="offers.html" data-i18n="nav.offers">العروض</a>
+    <a href="book.html" data-i18n="nav.book">احجز الآن</a>
+    <a href="index.html#contact" data-i18n="nav.contact">تواصل معنا</a>
+    <a href="checkin.html" data-i18n="nav.checkin">تسجيل الوصول</a>
+    <a href="#" class="lang-btn lang-toggle" style="text-align:center; margin-top:8px" data-i18n="toggle">English</a>
+  </div>
+</div>
+
+<!-- ============================ HERO ============================ -->
+<section class="bhero">
+  <div class="wrap bhero-in">
+    <p class="eyebrow" data-i18n="bk.eyebrow">احجز الآن</p>
+    <h1 data-i18n="bk.title">احجز بيتك الثاني في جدة</h1>
+    <p class="sub" data-i18n="bk.sub">اختر شقتك وحدّد تواريخك — ويظهر لك العرض المناسب تلقائياً قبل ما تكمل الحجز.</p>
+    <div class="offers-hint">
+      <span class="chip" data-i18n="bk.chip1">إقامة ٧ ليالٍ فأكثر = خصم <b>٧٪</b></span>
+      <span class="chip" data-i18n="bk.chip2">حجز قبل ٢٨ يوماً = خصم <b>٥٪</b></span>
+      <span class="chip" data-i18n="bk.chip3">الحجز المبكر + الطويل = الخصمان معاً</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ ROOMS ============================ -->
+<section class="block">
+  <div class="wrap">
+    <div class="rooms" id="rooms"><!-- يُعبّأ من JS --></div>
+
+    <div class="bk-terms">
+      <h3 data-i18n="bk.termsTitle">شروط الحجز</h3>
+      <div class="bk-terms-list">
+        <div class="bk-term"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg><span data-i18n="bk.term1">لتأكيد الحجز يلزم تحويل ٣٠٪ من قيمة الإيجار، ويُؤكَّد الحجز بعد استلام التحويل.</span></div>
+        <div class="bk-term"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span data-i18n="bk.term2">في حال عدم سداد مبلغ التأكيد خلال ٤٨ ساعة يُلغى الحجز تلقائياً.</span></div>
+        <div class="bk-term"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/></svg><span data-i18n="bk.term3">الإلغاء متاح حتى ٣ أيام قبل موعد الوصول. لا يُسترد مبلغ التأكيد عند عدم الحضور أو الإلغاء بعد هذا الموعد.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ FOOTER ============================ -->
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <div class="brand">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="11.5" y="11.5" width="25" height="25" fill="none" stroke="#e0a437" stroke-width="2.1"/><rect x="11.5" y="11.5" width="25" height="25" fill="none" stroke="#e0a437" stroke-width="2.1" transform="rotate(45 24 24)"/><path d="M17.5 26 L24 20 L30.5 26 M20 24 V30.5 H28 V24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="name" data-i18n="brand">منازل الود</span>
+        </div>
+        <p class="tag" data-i18n="footer.tag">شقق مفروشة قصيرة الأمد في جدة — الصفا وأبحر.</p>
+      </div>
+      <nav class="foot-links">
+        <a href="index.html#locations" data-i18n="nav.locs">المواقع</a>
+        <a href="index.html#apartments" data-i18n="nav.apts">الشقق</a>
+        <a href="offers.html" data-i18n="nav.offers">العروض</a>
+        <a href="book.html" data-i18n="nav.book">احجز الآن</a>
+        <a href="checkin.html" data-i18n="nav.checkin">تسجيل الوصول</a>
+      </nav>
+    </div>
+    <div class="foot-bottom">
+      <span data-i18n="footer.rights">© منازل الود ٢٠٢٦. جميع الحقوق محفوظة.</span>
+      <button class="lang-btn lang-toggle" data-i18n="toggle">English</button>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================ SMOOBU BOOKING MODAL ============================ -->
+<div class="book-modal" id="bookModal">
+  <div class="book-modal-card">
+    <div class="book-modal-head">
+      <h3 data-i18n="bk.modalTitle">أكمل حجزك</h3>
+      <button class="modal-close" id="bookClose" aria-label="Close">&times;</button>
+    </div>
+    <div class="book-modal-note" id="bookModalNote" data-i18n="bk.modalNote">اختر نفس التواريخ في التقويم، وإذا كان لديك كود خصم أدخله عند الدفع.</div>
+    <div class="book-modal-body"><div id="bookingEngine"></div></div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script type="text/javascript" src="https://login.smoobu.com/js/Settings/BookingToolIframe.js"></script>
+<script>
+/* ============================ CONFIG ============================ */
+const SMOOBU_ACCOUNT = "1801951";
+
+/* ===== الشقق + الأسعار + أرقام Smoobu + الصورة الرئيسية ===== */
+const UNITS = {
+  u1:{ ar:"الصفا · غرفة واحدة (شقة ١)", en:"Al-Safa · one bedroom (Unit 1)", price:190, smoobuId:"3394831", img:"safa-1br-01.jpg" },
+  u2:{ ar:"الصفا · غرفة واحدة (شقة ٢)", en:"Al-Safa · one bedroom (Unit 2)", price:180, smoobuId:"3394836", img:"safa-2br-01.jpg" },
+  u3:{ ar:"الصفا · غرفتان",            en:"Al-Safa · two bedrooms",          price:240, smoobuId:"3394841", img:"safa-u3-01.jpg" },
+  u4:{ ar:"أبحر · غرفتان",             en:"Abhur · two bedrooms",            price:240, smoobuId:"3394846", img:"abhur-2br-01.jpg" }
+};
+
+/* ============================ الخصومات — عدّل من هنا ============================
+   • percent  : نسبة الخصم (غيّر الرقم فقط لتعديل النسبة)
+   • code     : كود الخصم الذي يُدخله العميل في صفحة الدفع (Smoobu)
+   • minNights: عدد الليالي المطلوب لخصم الأسبوع
+   • minDaysAhead: عدد الأيام قبل الوصول لخصم الحجز المبكر
+   ملاحظة: عند انطباق الخصمين معاً يُجمعان (١٢٪) ويُعرض الكود EARLYSTAY7.
+           ⚠️ خلّ النِسب والأكواد مطابقة لكوبونات Smoobu وصفحة العروض offers.html.
+*/
+const DISCOUNTS = {
+  longStay:   { minNights: 7,     percent: 7, code:"STAY7", ar:"خصم إقامة الأسبوع", en:"Weekly stay discount" },
+  earlyBird:  { minDaysAhead: 28, percent: 5, code:"EARLY", ar:"خصم الحجز المبكر",   en:"Early-bird discount" }
+};
+const CODE_COMBINED = "EARLYSTAY7";   // كود الخصمين معاً (الحجز المبكر + الأسبوع = ١٢٪)
+/* عند انطباق الخصمين معاً (مبكر + أسبوع) يُجمعان على كامل الإقامة،
+   ويُعرض للعميل كود EARLYSTAY7 ليُدخله عند الدفع في Smoobu. */
+
+const DEPOSIT_PERCENT = 30;   // مبلغ تأكيد الحجز (العربون) — % من الإجمالي بعد الخصم
+
+/* كود الخصم المناسب حسب الحالة (للعرض في النتيجة) */
+function offerCode(lines){
+  const keys=lines.map(l=>l.key);
+  const e=keys.includes('earlyBird'), l=keys.includes('longStay');
+  if(e && l) return CODE_COMBINED;
+  if(l) return DISCOUNTS.longStay.code;
+  if(e) return DISCOUNTS.earlyBird.code;
+  return null;
+}
+
+/* ============================ I18N ============================ */
+const I18N = {
+  ar:{
+    "brand":"منازل الود","toggle":"English",
+    "nav.locs":"المواقع","nav.apts":"الشقق","nav.offers":"العروض","nav.book":"احجز الآن","nav.contact":"تواصل معنا","nav.checkin":"تسجيل الوصول","nav.terms":"الشروط والأحكام","nav.privacy":"سياسة الخصوصية",
+    "bk.eyebrow":"احجز الآن","bk.title":"احجز بيتك الثاني في جدة",
+    "bk.sub":"اختر شقتك وحدّد تواريخك — ويظهر لك العرض المناسب تلقائياً قبل ما تكمل الحجز.",
+    "bk.chip1":"إقامة ٧ ليالٍ فأكثر = خصم <b>٧٪</b>","bk.chip2":"حجز قبل ٢٨ يوماً = خصم <b>٥٪</b>","bk.chip3":"الحجز المبكر + الطويل = الخصمان معاً",
+    "bk.in":"تاريخ الوصول","bk.out":"تاريخ المغادرة","bk.check":"تحقق من السعر والعرض",
+    "bk.night":"الليلة","bk.perNight":"السعر لليلة","bk.nights":"عدد الليالي","bk.subtotal":"الإجمالي قبل الخصم",
+    "bk.discount":"الخصم","bk.total":"الإجمالي بعد الخصم","bk.totalPlain":"الإجمالي",
+    "bk.gotOffer":"🎉 حصلت على خصمك",
+    "bk.depositLabel":"مبلغ تأكيد الحجز","bk.depositNote":"لتأكيد الحجز حوّل هذا المبلغ (٣٠٪ من قيمة الإيجار)، ويُؤكَّد حجزك من إدارة منازل الود بعد استلام التحويل.",
+    "bk.pol5days":"في حال عدم سداد مبلغ التأكيد خلال ٤٨ ساعة يُلغى الحجز تلقائياً.",
+    "bk.polCancel":"الإلغاء متاح حتى ٣ أيام قبل موعد الوصول. لا يُسترد مبلغ التأكيد عند عدم الحضور أو الإلغاء بعد هذا الموعد.",
+    "bk.book":"أكمل الحجز","bk.welcome":"شرفنا بحجز بيتك الثاني 🌟","bk.welcomePlain":"شرفنا بحجز بيتك الثاني 🌟",
+    "bk.couponTxt":"أدخل هذا الكود عند الدفع لتفعيل الخصم:","bk.copy":"نسخ","bk.copied":"تم نسخ الكود ✓",
+    "bk.errDates":"يرجى اختيار تاريخ الوصول والمغادرة.","bk.errOrder":"تاريخ المغادرة يجب أن يكون بعد الوصول.",
+    "bk.errPast":"لا يمكن اختيار تاريخ في الماضي.",
+    "bk.noOffer":"سعر إقامتك جاهز — أكمل الحجز الآن.",
+    "bk.modalTitle":"أكمل حجزك","bk.modalNote":"اختر نفس التواريخ في التقويم لإتمام حجزك.",
+    "bk.termsTitle":"شروط الحجز",
+    "bk.term1":"لتأكيد الحجز يلزم تحويل ٣٠٪ من قيمة الإيجار، ويُؤكَّد الحجز بعد استلام التحويل.",
+    "bk.term2":"في حال عدم سداد مبلغ التأكيد خلال ٤٨ ساعة يُلغى الحجز تلقائياً.",
+    "bk.term3":"الإلغاء متاح حتى ٣ أيام قبل موعد الوصول. لا يُسترد مبلغ التأكيد عند عدم الحضور أو الإلغاء بعد هذا الموعد.",
+    "metaTitle":"منازل الود · احجز الآن"
+  },
+  en:{
+    "brand":"Manazil Alwed","toggle":"العربية",
+    "nav.locs":"Locations","nav.apts":"Apartments","nav.offers":"Offers","nav.book":"Book now","nav.contact":"Contact","nav.checkin":"Check-in","nav.terms":"Terms & Conditions","nav.privacy":"Privacy Policy",
+    "bk.eyebrow":"Book now","bk.title":"Book your second home in Jeddah",
+    "bk.sub":"Pick your apartment and choose your dates — the right offer appears automatically before you book.",
+    "bk.chip1":"7+ nights = <b>7%</b> off","bk.chip2":"Book 28+ days ahead = <b>5%</b> off","bk.chip3":"Early + long stay = both discounts",
+    "bk.in":"Check-in","bk.out":"Check-out","bk.check":"Check price & offer",
+    "bk.night":"night","bk.perNight":"Per night","bk.nights":"Nights","bk.subtotal":"Subtotal before discount",
+    "bk.discount":"Discount","bk.total":"Total after discount","bk.totalPlain":"Total",
+    "bk.gotOffer":"🎉 You got a discount",
+    "bk.depositLabel":"Booking deposit","bk.depositNote":"To confirm your booking, transfer this amount (30% of the rent). Your booking is confirmed by Manazil Alwed once the transfer is received.",
+    "bk.pol5days":"If the deposit isn't paid within 48 hours, the booking is cancelled automatically.",
+    "bk.polCancel":"Cancellation is available up to 3 days before arrival. The deposit is non-refundable for no-shows or cancellations after that.",
+    "bk.book":"Complete booking","bk.welcome":"Honoured to host your second home 🌟","bk.welcomePlain":"Honoured to host your second home 🌟",
+    "bk.couponTxt":"Enter this code at checkout to apply your discount:","bk.copy":"Copy","bk.copied":"Code copied ✓",
+    "bk.errDates":"Please choose check-in and check-out dates.","bk.errOrder":"Check-out must be after check-in.",
+    "bk.errPast":"You can't choose a date in the past.",
+    "bk.noOffer":"Your stay price is ready — complete your booking now.",
+    "bk.modalTitle":"Complete your booking","bk.modalNote":"Pick the same dates in the calendar to complete your booking.",
+    "bk.termsTitle":"Booking terms",
+    "bk.term1":"To confirm a booking, a 30% transfer of the rent is required; the booking is confirmed once the transfer is received.",
+    "bk.term2":"If the deposit isn't paid within 48 hours, the booking is cancelled automatically.",
+    "bk.term3":"Cancellation is available up to 3 days before arrival. The deposit is non-refundable for no-shows or cancellations after that.",
+    "metaTitle":"Manazil Alwed · Book now"
+  }
+};
+
+/* ============================ STATE + HELPERS ============================ */
+let lang='ar';
+const t=(k)=>(I18N[lang][k] ?? k);
+const toAr=(s)=>String(s).replace(/[0-9]/g,d=>"٠١٢٣٤٥٦٧٨٩"[d]);
+const num=(n)=> lang==='ar'?toAr(n):String(n);
+const money=(n)=> lang==='ar'? `${toAr(n)} ر.س` : `SAR ${n}`;
+const todayStr=()=> new Date().toISOString().split('T')[0];
+
+/* تقييم الخصومات المنطبقة على شقة بتواريخ معيّنة، مع حساب المبالغ */
+function evaluate(ciStr, coStr, price){
+  const today=new Date(); today.setHours(0,0,0,0);
+  const ci=new Date(ciStr+'T00:00:00'), co=new Date(coStr+'T00:00:00');
+  if(isNaN(ci)||isNaN(co)) return {error:'errDates'};
+  if(ci<today) return {error:'errPast'};
+  const nights=Math.round((co-ci)/86400000);
+  if(nights<1) return {error:'errOrder'};
+  const daysAhead=Math.round((ci-today)/86400000);
+  const now=new Date();
+  const subtotal=price*nights;
+
+  /* كل سطر: { key, amount } */
+  const lines=[];
+  /* الحجز المبكر (٢٨ يوماً فأكثر) — على كامل الإقامة */
+  if(daysAhead>=DISCOUNTS.earlyBird.minDaysAhead)
+    lines.push({ key:'earlyBird', amount:Math.round(subtotal*DISCOUNTS.earlyBird.percent/100) });
+  /* الإقامة الطويلة (٧ ليالٍ فأكثر) — على كامل الإقامة — تُجمع مع الحجز المبكر */
+  if(nights>=DISCOUNTS.longStay.minNights)
+    lines.push({ key:'longStay', amount:Math.round(subtotal*DISCOUNTS.longStay.percent/100) });
+
+  const discountTotal=lines.reduce((s,l)=>s+l.amount,0);
+  const total=subtotal-discountTotal;
+  const deposit=Math.round(total*DEPOSIT_PERCENT/100);
+  return { nights, daysAhead, subtotal, lines, discountTotal, total, deposit };
+}
+
+/* بناء بطاقات الشقق */
+function renderRooms(){
+  const grid=document.getElementById('rooms');
+  grid.innerHTML=Object.keys(UNITS).map(uid=>{
+    const u=UNITS[uid];
+    return `
+    <article class="room" data-uid="${uid}">
+      <div class="ph">
+        <span class="price-tag" data-pricetag="${uid}"></span>
+        <img src="${u.img}" alt="" loading="lazy" decoding="async">
+      </div>
+      <div class="body">
+        <h3 data-name="${uid}">${u[lang]}</h3>
+        <div class="dates">
+          <div class="dfield">
+            <label data-i18n="bk.in">تاريخ الوصول</label>
+            <input type="date" data-ci="${uid}" min="${todayStr()}">
+          </div>
+          <div class="dfield">
+            <label data-i18n="bk.out">تاريخ المغادرة</label>
+            <input type="date" data-co="${uid}" min="${todayStr()}">
+          </div>
+        </div>
+        <button class="check-btn" data-check="${uid}" data-i18n="bk.check">تحقق من السعر والعرض</button>
+        <div class="result" data-result="${uid}"></div>
+      </div>
+    </article>`;
+  }).join('');
+
+  /* ربط الأحداث */
+  grid.querySelectorAll('[data-check]').forEach(btn=>{
+    btn.addEventListener('click', ()=> doCheck(btn.getAttribute('data-check')));
+  });
+  grid.querySelectorAll('[data-ci]').forEach(inp=>{
+    inp.addEventListener('change', ()=>{
+      const uid=inp.getAttribute('data-ci');
+      const co=document.querySelector(`[data-co="${uid}"]`);
+      co.min=inp.value||todayStr();
+      if(co.value && co.value<inp.value) co.value=inp.value;
+    });
+  });
+  refreshRoomTexts();
+}
+
+/* تحديث نصوص البطاقات حسب اللغة (الأسماء + شارة السعر) */
+function refreshRoomTexts(){
+  Object.keys(UNITS).forEach(uid=>{
+    const u=UNITS[uid];
+    const nm=document.querySelector(`[data-name="${uid}"]`); if(nm) nm.textContent=u[lang];
+    const pt=document.querySelector(`[data-pricetag="${uid}"]`); if(pt) pt.textContent=`${money(u.price)} / ${t('bk.night')}`;
+  });
+}
+
+/* تنفيذ الحساب وعرض النتيجة */
+function doCheck(uid){
+  const u=UNITS[uid];
+  const ci=document.querySelector(`[data-ci="${uid}"]`).value;
+  const co=document.querySelector(`[data-co="${uid}"]`).value;
+  const box=document.querySelector(`[data-result="${uid}"]`);
+  box.classList.remove('has-offer');
+
+  if(!ci||!co){ showErr(box,'errDates'); return; }
+  const r=evaluate(ci,co,u.price);
+  if(r.error){ showErr(box,r.error); return; }
+
+  const hasOffer=r.lines.length>0;
+  if(hasOffer) box.classList.add('has-offer');
+
+  const headIcon = hasOffer
+    ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v9H4v-9M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>`
+    : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>`;
+  const headText = hasOffer ? t('bk.gotOffer') : t('bk.noOffer');
+
+  let rows=`
+        <div class="row"><span class="k">${t('bk.perNight')}</span><span class="v">${money(u.price)}</span></div>
+        <div class="row"><span class="k">${t('bk.nights')}</span><span class="v">${num(r.nights)}</span></div>
+        <div class="row"><span class="k">${t('bk.subtotal')}</span><span class="v">${money(r.subtotal)}</span></div>`;
+  r.lines.forEach(l=>{
+    const d=DISCOUNTS[l.key];
+    rows+=`<div class="row disc"><span class="k">${d[lang]} · ${num(d.percent)}٪</span><span class="v">− ${money(l.amount)}</span></div>`;
+  });
+  rows += hasOffer
+    ? `<div class="row total"><span class="k">${t('bk.total')}</span><span class="v"><span class="was">${money(r.subtotal)}</span>${money(r.total)}</span></div>`
+    : `<div class="row total"><span class="k">${t('bk.totalPlain')}</span><span class="v">${money(r.total)}</span></div>`;
+
+  const code = offerCode(r.lines);
+  const coupon = code ? `
+      <div class="coupon">
+        <div class="c-txt">${t('bk.couponTxt')}<br><b>${code}</b></div>
+        <button class="c-copy" type="button" data-copy="${code}">${t('bk.copy')}</button>
+      </div>` : '';
+
+  const deposit=`
+      <div class="deposit">
+        <div class="dep-main"><span>${t('bk.depositLabel')} (${num(DEPOSIT_PERCENT)}٪)</span><b>${money(r.deposit)}</b></div>
+        <span class="dep-note">${t('bk.depositNote')}</span>
+      </div>`;
+
+  const policy=`
+      <div class="policy">
+        <div class="pol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>${t('bk.pol5days')}</span></div>
+        <div class="pol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/></svg><span>${t('bk.polCancel')}</span></div>
+      </div>`;
+
+  const welcome=`<div class="welcome"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8M5 10v10h14V10"/></svg><span>${t('bk.welcome')}</span></div>`;
+  const btn=`<button class="book-now" data-booknow="${uid}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg><span data-i18n="bk.book">${t('bk.book')}</span></button>`;
+
+  box.innerHTML = `<div class="ok-head">${headIcon}<span>${headText}</span></div><div class="rows">${rows}</div>${coupon}${deposit}${policy}${welcome}${btn}`;
+  box.classList.add('show');
+  box.querySelector('[data-booknow]').addEventListener('click', ()=> openBook(uid));
+  const cp=box.querySelector('[data-copy]'); if(cp) cp.addEventListener('click', ()=> copyCode(cp.getAttribute('data-copy')));
+}
+
+function showErr(box,key){ box.innerHTML=`<div class="err">${t('bk.'+key)}</div>`; box.classList.add('show'); }
+
+function copyCode(code){
+  if(navigator.clipboard){ navigator.clipboard.writeText(code).then(()=>toast(t('bk.copied'))).catch(()=>toast(code)); }
+  else toast(code);
+}
+
+/* ============================ SMOOBU MODAL ============================ */
+const bookModal=document.getElementById('bookModal');
+let loadedUnit=null;
+function openBook(uid){
+  const u=UNITS[uid];
+  bookModal.classList.add('open'); document.body.style.overflow='hidden';
+  if(loadedUnit===uid) return;
+  document.getElementById('bookingEngine').innerHTML='';
+  if(window.BookingToolIframe){
+    BookingToolIframe.initialize({
+      "url":`https://login.smoobu.com/en/booking-tool/iframe/${SMOOBU_ACCOUNT}/${u.smoobuId}`,
+      "baseUrl":"https://login.smoobu.com",
+      "target":"#bookingEngine"
+    });
+    loadedUnit=uid;
+  }
+}
+function closeBook(){ bookModal.classList.remove('open'); document.body.style.overflow=''; }
+document.getElementById('bookClose').addEventListener('click', closeBook);
+bookModal.addEventListener('click', e=>{ if(e.target===bookModal) closeBook(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeBook(); closeDrawer(); } });
+
+/* ============================ LANG + DRAWER + TOAST ============================ */
+function applyLang(){
+  const dict=I18N[lang];
+  document.documentElement.lang=lang;
+  document.documentElement.dir=(lang==='ar')?'rtl':'ltr';
+  document.body.classList.toggle('lang-ar', lang==='ar');
+  document.body.classList.toggle('lang-en', lang==='en');
+  document.title=dict.metaTitle;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{ const v=dict[el.getAttribute('data-i18n')]; if(v!=null) el.innerHTML=v; });
+  refreshRoomTexts();
+  /* امسح النتائج المعروضة لأنها بلغة سابقة */
+  document.querySelectorAll('.result').forEach(b=>{ b.classList.remove('show','has-offer'); b.innerHTML=''; });
+}
+const setLang=(l)=>{ lang=l; applyLang(); };
+const toggleLang=()=> setLang(lang==='ar'?'en':'ar');
+document.querySelectorAll('.lang-toggle').forEach(b=> b.addEventListener('click',(e)=>{ e.preventDefault(); toggleLang(); }));
+
+const drawer=document.getElementById('drawer');
+const openDrawer=()=>{ drawer.classList.add('open'); document.getElementById('burger').setAttribute('aria-expanded','true'); };
+const closeDrawer=()=>{ drawer.classList.remove('open'); document.getElementById('burger').setAttribute('aria-expanded','false'); };
+document.getElementById('burger').addEventListener('click', openDrawer);
+document.getElementById('drawerClose').addEventListener('click', closeDrawer);
+drawer.addEventListener('click', e=>{ if(e.target===drawer) closeDrawer(); });
+drawer.querySelectorAll('a:not(.lang-toggle)').forEach(a=> a.addEventListener('click', closeDrawer));
+
+let toastTimer; const toastEl=document.getElementById('toast');
+function toast(msg){ toastEl.textContent=msg; toastEl.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>toastEl.classList.remove('show'),2600); }
+
+/* ============================ INIT ============================ */
+renderRooms();
+applyLang();
+</script>
+</body>
+</html>

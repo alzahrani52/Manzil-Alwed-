@@ -299,6 +299,21 @@ a.u-addr:hover span{text-decoration:underline; text-underline-offset:2px}
 @media (max-width:859px){ .nav{display:none} }
 [dir="rtl"] .arrow{display:inline-block; transform:scaleX(-1)}
 @media (prefers-reduced-motion:reduce){ *{scroll-behavior:auto !important} .reveal{transition:none; opacity:1; transform:none} .loc img{transition:none} .wa-fab::before{animation:none; display:none} }
+/* ============================ OFFERS BANNER ============================ */
+.promo{margin-block:10px}
+.promo-card{position:relative; overflow:hidden; border-radius:24px; background:linear-gradient(120deg,#dd9f31,#f1c265 52%,#cf9d33); color:#3a2a06; padding:34px 32px; display:flex; flex-wrap:wrap; align-items:center; gap:22px; justify-content:space-between; box-shadow:0 20px 46px -22px rgba(200,150,40,.85)}
+.promo-card::before{content:""; position:absolute; inset:0; background:radial-gradient(circle at 86% -25%, rgba(255,255,255,.6), transparent 46%); pointer-events:none}
+.promo-card::after{content:""; position:absolute; inset-block:-20px; inset-inline-end:-30px; width:200px; background:repeating-linear-gradient(45deg, rgba(255,255,255,.16) 0 14px, transparent 14px 30px); pointer-events:none; opacity:.9}
+.promo-txt{position:relative; z-index:1; max-width:62ch}
+.promo-badge{display:inline-flex; align-items:center; gap:7px; background:#13294e; color:#fff; font-weight:700; font-size:.8rem; letter-spacing:.03em; padding:6px 13px; border-radius:999px; margin-bottom:13px}
+.promo-card h2{color:#2a1f06; font-size:clamp(1.5rem,3.6vw,2.1rem); margin:0; line-height:1.15}
+.promo-card p{margin-top:9px; color:#5c4514; font-weight:500; font-size:1.02rem; line-height:1.55}
+.promo-cta{position:relative; z-index:1; flex:none}
+.promo-cta a{display:inline-flex; align-items:center; gap:9px; background:#13294e; color:#fff; font-weight:700; font-size:1rem; padding:14px 26px; border-radius:999px; box-shadow:0 12px 26px -12px rgba(19,41,78,.7); transition:transform .12s, background .2s}
+.promo-cta a:hover{background:#1c3a6e; transform:translateY(-1px)}
+.promo-cta a svg{width:18px; height:18px}
+[dir="rtl"] .promo-cta a svg{transform:scaleX(-1)}
+@media(max-width:640px){ .promo-card{padding:26px 22px} .promo-cta{width:100%} .promo-cta a{width:100%; justify-content:center} }
 </style>
 
 <!-- ============ PWA · تطبيق الجوال ============ -->
@@ -352,10 +367,12 @@ a.u-addr:hover span{text-decoration:underline; text-underline-offset:2px}
       <a href="#about" data-i18n="nav.about">من نحن</a>
       <a href="#contact" data-i18n="nav.contact">تواصل معنا</a>
       <a href="checkin.html" data-i18n="nav.checkin">تسجيل الوصول</a>
+        <a href="terms.html" data-i18n="nav.terms">الشروط والأحكام</a>
+        <a href="privacy.html" data-i18n="nav.privacy">سياسة الخصوصية</a>
     </nav>
     <div class="head-cta">
       <button class="lang-btn lang-toggle" data-i18n="toggle">English</button>
-      <a href="#apartments" class="btn" data-i18n="nav.book">احجز الآن</a>
+      <a href="book.html" class="btn" data-i18n="nav.book">احجز الآن</a>
       <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
   </div>
@@ -371,7 +388,7 @@ a.u-addr:hover span{text-decoration:underline; text-underline-offset:2px}
     <a href="#contact" data-i18n="nav.contact">تواصل معنا</a>
     <a href="checkin.html" data-i18n="nav.checkin">تسجيل الوصول</a>
     <a href="#" class="lang-btn lang-toggle" style="text-align:center; margin-top:8px" data-i18n="toggle">English</a>
-    <a href="#apartments" class="btn" data-i18n="nav.book">احجز الآن</a>
+    <a href="book.html" class="btn" data-i18n="nav.book">احجز الآن</a>
   </div>
 </div>
 
@@ -437,6 +454,20 @@ a.u-addr:hover span{text-decoration:underline; text-underline-offset:2px}
     <div class="value reveal"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span><div><h3 data-i18n="val.1t">أسعار واضحة</h3><p data-i18n="val.1d">تبدأ من ١٨٠ ر.س لليلة، بدون رسوم خفية.</p></div></div>
     <div class="value reveal"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg></span><div><h3 data-i18n="val.3t">مواقع مميّزة</h3><p data-i18n="val.3d">في الصفا وأبحر، قريب من كل شيء.</p></div></div>
     <div class="value reveal"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 0 0-9 9v4a2 2 0 0 0 2 2h2v-6H5a7 7 0 0 1 14 0h-2v6h2a2 2 0 0 0 2-2v-4a9 9 0 0 0-9-9Z"/></svg></span><div><h3 data-i18n="val.4t">دعم سريع</h3><p data-i18n="val.4d">نرد على استفساراتك مباشرة عبر واتساب.</p></div></div>
+  </div>
+</section>
+
+<!-- ============================ OFFERS BANNER ============================ -->
+<section class="promo wrap">
+  <div class="promo-card reveal">
+    <div class="promo-txt">
+      <span class="promo-badge" data-i18n="promo.badge">🎉 خصومات حصرية</span>
+      <h2 data-i18n="promo.title">عروض منازل الود</h2>
+      <p data-i18n="promo.sub">وفّر حتى ١٢٪ على إقامتك — خصم للإقامات الطويلة وللحجز المبكر، ويظهر لك الخصم تلقائياً عند اختيار تواريخك.</p>
+    </div>
+    <div class="promo-cta">
+      <a href="offers.html"><span data-i18n="promo.btn">اكتشف العروض</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
   </div>
 </section>
 
@@ -740,7 +771,7 @@ const GALLERY = {
 const I18N = {
   ar:{
     "brand":"منازل الود","toggle":"English",
-    "nav.locs":"المواقع","nav.apts":"الشقق","nav.offers":"العروض","nav.about":"من نحن","nav.contact":"تواصل معنا","nav.checkin":"تسجيل الوصول","apt.checkin":"تسجيل الوصول","nav.book":"احجز الآن",
+    "nav.locs":"المواقع","nav.apts":"الشقق","nav.offers":"العروض","nav.about":"من نحن","nav.contact":"تواصل معنا","nav.checkin":"تسجيل الوصول","nav.terms":"الشروط والأحكام","nav.privacy":"سياسة الخصوصية","apt.checkin":"تسجيل الوصول","nav.book":"احجز الآن",
     "hero.eyebrow":"شقق مفروشة في جدة — الصفا وأبحر",
     "hero.title":"إقامة مريحة في قلب جدة",
     "hero.sub":"شقق مفروشة بأسعار واضحة — للزيارة والعمرة والإجازات.",
@@ -752,6 +783,7 @@ const I18N = {
     "val.2t":"حجز مباشر أونلاين","val.2d":"اختر تواريخك واحجز خلال دقائق.",
     "val.3t":"مواقع مميّزة","val.3d":"في الصفا وأبحر، قريب من كل شيء.",
     "val.4t":"دعم سريع","val.4d":"نرد على استفساراتك مباشرة عبر واتساب.",
+    "promo.badge":"🎉 خصومات حصرية","promo.title":"عروض منازل الود","promo.sub":"وفّر حتى ١٢٪ على إقامتك — خصم للإقامات الطويلة وللحجز المبكر، ويظهر لك الخصم تلقائياً عند اختيار تواريخك.","promo.btn":"اكتشف العروض",
     "locs.kicker":"مواقعنا","locs.title":"مواقعنا في جدة","locs.sub":"اختر الموقع الأنسب لإقامتك.","locs.view":"عرض الشقق",
     "loc.safaT":"الصفا","loc.safaD":"حي مركزي حيوي، قريب من الخدمات والمطاعم والأسواق.",
     "loc.abhurT":"أبحر","loc.abhurD":"وجهة بحرية هادئة في شمال جدة، مثالية للاسترخاء.",
@@ -780,7 +812,7 @@ const I18N = {
   },
   en:{
     "brand":"Manazil Alwed","toggle":"العربية",
-    "nav.locs":"Locations","nav.apts":"Apartments","nav.offers":"Offers","nav.about":"About","nav.contact":"Contact","nav.checkin":"Check-in","apt.checkin":"Check-in","nav.book":"Book now",
+    "nav.locs":"Locations","nav.apts":"Apartments","nav.offers":"Offers","nav.about":"About","nav.contact":"Contact","nav.checkin":"Check-in","nav.terms":"Terms & Conditions","nav.privacy":"Privacy Policy","apt.checkin":"Check-in","nav.book":"Book now",
     "hero.eyebrow":"Furnished apartments in Jeddah — Al-Safa & Abhur",
     "hero.title":"A comfortable stay in the heart of Jeddah",
     "hero.sub":"Furnished apartments with clear prices — for visits, Umrah, and holidays.",
@@ -792,6 +824,7 @@ const I18N = {
     "val.2t":"Easy online booking","val.2d":"Pick your dates and book in minutes.",
     "val.3t":"Prime locations","val.3d":"In Al-Safa and Abhur, close to everything.",
     "val.4t":"Fast support","val.4d":"We answer your questions directly on WhatsApp.",
+    "promo.badge":"🎉 Exclusive discounts","promo.title":"Manazil Alwed offers","promo.sub":"Save up to 12% on your stay — long-stay and early-bird discounts, applied automatically when you pick your dates.","promo.btn":"Explore offers",
     "locs.kicker":"Where we are","locs.title":"Our locations in Jeddah","locs.sub":"Pick the area that suits your stay.","locs.view":"View apartments",
     "loc.safaT":"Al-Safa","loc.safaD":"A central, lively district close to shops, restaurants and markets.",
     "loc.abhurT":"Abhur","loc.abhurD":"A calm seaside destination in north Jeddah, perfect to unwind.",

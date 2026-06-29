@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<!--
+  ===================================================================
+  منازل الود · الشروط والأحكام (Terms & Conditions) — AR / EN
+  ===================================================================
+  لتعديل النصوص: ابحث عن  const SECTIONS  — كل بند فيه عنوان (t) وفقرة (lead) ونقاط (points) بالعربي/الإنجليزي.
+  هذي الصفحة مرتبطة في إعدادات Smoobu (Link to Terms & Conditions) وفي تذييل الموقع.
+  ===================================================================
+-->
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>منازل الود · الشروط والأحكام</title>
+<meta name="description" content="الشروط والأحكام لحجز شقق منازل الود المفروشة في جدة — سياسة الحجز والعربون والإلغاء، أوقات الدخول والخروج، وقواعد الإقامة.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1b2430; --ink-soft:#49525f; --muted:#6b7482;
+  --paper:#ffffff; --bg:#e8e6e1;
+  --brand:#1c3a6e; --brand-700:#13294e; --brand-300:#88a4d4; --navy:#13294e;
+  --gold:#e0a437; --gold-700:#b9852a;
+  --line:#e2dfd8;
+  --shadow:0 1px 2px rgba(20,28,44,.05), 0 14px 40px -18px rgba(20,28,44,.28);
+  --shadow-sm:0 1px 2px rgba(20,28,44,.06), 0 6px 18px -12px rgba(20,28,44,.25);
+  --radius:18px; --maxw:880px;
+}
+body.lang-en{ --font-display:'Fraunces',Georgia,serif; --font-body:'DM Sans',system-ui,sans-serif; }
+body.lang-ar{ --font-display:-apple-system,BlinkMacSystemFont,'SF Arabic',system-ui,'Segoe UI',Tahoma,Arial,sans-serif; --font-body:-apple-system,BlinkMacSystemFont,'SF Arabic',system-ui,'Segoe UI',Tahoma,Arial,sans-serif; }
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--font-body); font-size:16px; line-height:1.7; -webkit-font-smoothing:antialiased;}
+h1,h2,h3{font-family:var(--font-display); margin:0; line-height:1.18; font-weight:600; color:var(--navy)}
+body.lang-ar h1,body.lang-ar h2,body.lang-ar h3{line-height:1.35}
+p{margin:0} a{color:inherit; text-decoration:none} button{font-family:inherit; cursor:pointer}
+:focus-visible{outline:3px solid var(--gold); outline-offset:2px; border-radius:6px}
+.wrap{max-width:var(--maxw); margin-inline:auto; padding-inline:22px}
+
+/* HEADER */
+.head{position:sticky; top:0; z-index:50; background:rgba(19,41,78,.9); backdrop-filter:saturate(140%) blur(12px); border-bottom:1px solid rgba(255,255,255,.1)}
+.head-in{display:flex; align-items:center; gap:18px; height:66px}
+.brand{display:flex; align-items:center; gap:10px; font-family:var(--font-display); font-weight:600; font-size:1.3rem; color:#fff}
+.brand svg{width:25px; height:25px; flex:none}
+.nav{display:flex; align-items:center; gap:24px; margin-inline-start:auto}
+.nav a{font-size:.94rem; color:rgba(255,255,255,.82); font-weight:500}
+.nav a:hover{color:#fff}
+.head-cta{display:flex; align-items:center; gap:10px}
+.lang-btn{border:1px solid rgba(255,255,255,.3); background:transparent; color:#fff; border-radius:999px; padding:8px 14px; font-size:.85rem; font-weight:600; white-space:nowrap}
+.lang-btn:hover{border-color:rgba(255,255,255,.65)}
+.burger{display:none; flex-direction:column; gap:5px; background:none; border:0; padding:8px}
+.burger span{width:24px; height:2px; background:#fff; border-radius:2px}
+.drawer{position:fixed; inset:0; z-index:60; background:rgba(20,28,44,.45); opacity:0; pointer-events:none; transition:opacity .25s}
+.drawer.open{opacity:1; pointer-events:auto}
+.drawer-panel{position:absolute; inset-block:0; inset-inline-end:0; width:min(86%,330px); background:var(--paper); padding:26px 24px; display:flex; flex-direction:column; gap:4px; transform:translateX(12%); transition:transform .28s}
+[dir="rtl"] .drawer-panel{transform:translateX(-12%)}
+.drawer.open .drawer-panel{transform:translateX(0)}
+.drawer-panel a{padding:13px 6px; font-size:1.05rem; font-weight:500; border-bottom:1px solid var(--line)}
+.drawer-close{align-self:flex-end; background:none; border:0; font-size:1.6rem; color:var(--muted); padding:4px}
+
+/* HERO */
+.lhero{background:linear-gradient(135deg,var(--brand-700),var(--brand) 65%,#2b4f8f); color:#fff}
+.lhero-in{padding-block:42px 46px}
+.lhero .eyebrow{font-size:.82rem; font-weight:700; letter-spacing:.04em; color:#e7c98b}
+.lhero h1{font-size:clamp(1.7rem,4.5vw,2.4rem); margin-top:10px; color:#fff}
+.lhero .updated{margin-top:12px; font-size:.9rem; color:rgba(255,255,255,.82)}
+
+/* LEGAL BODY */
+.legal{padding-block:40px 20px}
+.intro{background:var(--paper); border:1px solid var(--line); border-radius:var(--radius); padding:22px 24px; box-shadow:var(--shadow-sm); color:var(--ink-soft); font-size:.98rem; margin-bottom:26px}
+.sec{margin-bottom:26px}
+.sec h2{font-size:1.28rem; display:flex; align-items:flex-start; gap:12px; margin-bottom:12px}
+.sec h2 .n{flex:none; min-width:34px; height:34px; border-radius:9px; background:var(--brand-700); color:#fff; font-family:var(--font-body); font-weight:700; font-size:.95rem; display:grid; place-items:center; margin-top:2px}
+.sec .lead{color:var(--ink-soft); margin-bottom:10px}
+.sec ul{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:9px}
+.sec li{position:relative; padding-inline-start:22px; color:var(--ink); font-size:.97rem}
+.sec li::before{content:""; position:absolute; inset-inline-start:4px; top:11px; width:7px; height:7px; border-radius:50%; background:var(--gold)}
+.callout{background:#fffaf0; border:1px solid var(--gold); border-radius:14px; padding:16px 18px; margin-bottom:26px; font-size:.95rem; color:var(--ink)}
+.callout b{color:var(--gold-700)}
+
+/* FOOTER */
+.foot{background:var(--navy); color:#cdd6e2; padding-block:42px 28px; margin-top:30px}
+.foot-top{display:flex; flex-wrap:wrap; gap:24px; justify-content:space-between; align-items:flex-start}
+.foot .brand{color:#fff}
+.foot p.tag{color:#9aa8bf; max-width:40ch; margin-top:12px; font-size:.94rem}
+.foot-links{display:flex; gap:20px; flex-wrap:wrap}
+.foot-links a{color:#cdd6e2; font-size:.94rem}
+.foot-links a:hover{color:#fff}
+.foot-bottom{border-top:1px solid rgba(255,255,255,.12); margin-top:28px; padding-top:18px; display:flex; flex-wrap:wrap; gap:12px; justify-content:space-between; align-items:center; font-size:.85rem; color:#8a99b3}
+
+@media (max-width:760px){ .nav{display:none} .burger{display:inline-flex} }
+</style>
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#13294e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="منازل الود">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function(){ navigator.serviceWorker.register('service-worker.js').catch(function(e){console.log(e);}); });
+  }
+</script>
+</head>
+<body class="lang-ar">
+<a id="top"></a>
+<header class="head">
+  <div class="wrap head-in">
+    <a class="brand" href="index.html#top">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="11.5" y="11.5" width="25" height="25" fill="none" stroke="#e0a437" stroke-width="2.1"/><rect x="11.5" y="11.5" width="25" height="25" fill="none" stroke="#e0a437" stroke-width="2.1" transform="rotate(45 24 24)"/><path d="M17.5 26 L24 20 L30.5 26 M20 24 V30.5 H28 V24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span data-i18n="brand">منازل الود</span>
+    </a>
+    <nav class="nav">
+      <a href="index.html#apartments" data-i18n="nav.apts">الشقق</a>
+      <a href="offers.html" data-i18n="nav.offers">العروض</a>
+      <a href="book.html" data-i18n="nav.book">احجز الآن</a>
+      <a href="index.html#contact" data-i18n="nav.contact">تواصل معنا</a>
+    </nav>
+    <div class="head-cta">
+      <button class="lang-btn lang-toggle" data-i18n="toggle">English</button>
+      <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="drawer" id="drawer">
+  <div class="drawer-panel">
+    <button class="drawer-close" id="drawerClose" aria-label="Close">&times;</button>
+    <a href="index.html#apartments" data-i18n="nav.apts">الشقق</a>
+    <a href="offers.html" data-i18n="nav.offers">العروض</a>
+    <a href="book.html" data-i18n="nav.book">احجز الآن</a>
+    <a href="index.html#contact" data-i18n="nav.contact">تواصل معنا</a>
+    <a href="privacy.html" data-i18n="nav.privacy">سياسة الخصوصية</a>
+    <a href="#" class="lang-btn lang-toggle" style="text-align:center; margin-top:8px" data-i18n="toggle">English</a>
+  </div>
+</div>
+
+<section class="lhero">
+  <div class="wrap lhero-in">
+    <p class="eyebrow" data-i18n="hero.eyebrow">الأحكام والسياسات</p>
+    <h1 data-i18n="hero.title">الشروط والأحكام</h1>
+    <p class="updated" data-i18n="hero.updated">آخر تحديث: يونيو ٢٠٢٦</p>
+  </div>
+</section>
+
+<main class="legal">
+  <div class="wrap">
+    <div class="intro" data-i18n="intro">باستخدامك لموقع منازل الود وإتمام الحجز، فإنك توافق على الشروط والأحكام التالية. نرجو قراءتها بعناية قبل تأكيد حجزك.</div>
+    <div id="legal"></div>
+    <div class="callout">
+      <span data-i18n="contact">لأي استفسار حول هذه الشروط، تواصل معنا عبر واتساب: </span><b dir="ltr">+966&nbsp;59&nbsp;160&nbsp;2666</b>
+    </div>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <div class="brand">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="11.5" y="11.5" width="25" height="25" fill="none" stroke="#e0a437" stroke-width="2.1"/><rect x="11.5" y="11.5" width="25" height="25" fill="none" stroke="#e0a437" stroke-width="2.1" transform="rotate(45 24 24)"/><path d="M17.5 26 L24 20 L30.5 26 M20 24 V30.5 H28 V24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span data-i18n="brand">منازل الود</span>
+        </div>
+        <p class="tag" data-i18n="footer.tag">شقق مفروشة قصيرة الأمد في جدة — الصفا وأبحر.</p>
+      </div>
+      <nav class="foot-links">
+        <a href="index.html#apartments" data-i18n="nav.apts">الشقق</a>
+        <a href="offers.html" data-i18n="nav.offers">العروض</a>
+        <a href="book.html" data-i18n="nav.book">احجز الآن</a>
+        <a href="terms.html" data-i18n="nav.terms">الشروط والأحكام</a>
+        <a href="privacy.html" data-i18n="nav.privacy">سياسة الخصوصية</a>
+      </nav>
+    </div>
+    <div class="foot-bottom">
+      <span data-i18n="footer.rights">© منازل الود ٢٠٢٦. جميع الحقوق محفوظة.</span>
+      <button class="lang-btn lang-toggle" data-i18n="toggle">English</button>
+    </div>
+  </div>
+</footer>
+
+<script>
+const I18N = {
+  ar:{
+    "brand":"منازل الود","toggle":"English",
+    "nav.apts":"الشقق","nav.offers":"العروض","nav.book":"احجز الآن","nav.contact":"تواصل معنا","nav.terms":"الشروط والأحكام","nav.privacy":"سياسة الخصوصية",
+    "hero.eyebrow":"الأحكام والسياسات","hero.title":"الشروط والأحكام","hero.updated":"آخر تحديث: يونيو ٢٠٢٦",
+    "intro":"باستخدامك لموقع منازل الود وإتمام الحجز، فإنك توافق على الشروط والأحكام التالية. نرجو قراءتها بعناية قبل تأكيد حجزك.",
+    "contact":"لأي استفسار حول هذه الشروط، تواصل معنا عبر واتساب: ",
+    "footer.tag":"شقق مفروشة قصيرة الأمد في جدة — الصفا وأبحر.",
+    "footer.rights":"© منازل الود ٢٠٢٦. جميع الحقوق محفوظة.",
+    "metaTitle":"منازل الود · الشروط والأحكام"
+  },
+  en:{
+    "brand":"Manazil Alwed","toggle":"العربية",
+    "nav.apts":"Apartments","nav.offers":"Offers","nav.book":"Book now","nav.contact":"Contact","nav.terms":"Terms & Conditions","nav.privacy":"Privacy Policy",
+    "hero.eyebrow":"Terms & policies","hero.title":"Terms & Conditions","hero.updated":"Last updated: June 2026",
+    "intro":"By using the Manazil Alwed website and completing a booking, you agree to the following terms and conditions. Please read them carefully before confirming your reservation.",
+    "contact":"For any questions about these terms, contact us on WhatsApp: ",
+    "footer.tag":"Short-term furnished apartments in Jeddah — Al-Safa & Abhur.",
+    "footer.rights":"© Manazil Alwed 2026. All rights reserved.",
+    "metaTitle":"Manazil Alwed · Terms & Conditions"
+  }
+};
+
+/* ====== بنود الشروط — عدّل من هنا ====== */
+const SECTIONS = [
+  {
+    t:{ar:"الحجز والدفع",en:"Booking & payment"},
+    lead:{ar:"تتم الحجوزات عبر الموقع وتُحسب الأسعار بالريال السعودي.",en:"Bookings are made through the website and prices are calculated in Saudi Riyal (SAR)."},
+    points:[
+      {ar:"لتأكيد الحجز يلزم تحويل مبلغ تأكيد (عربون) قدره ٣٠٪ من قيمة الإيجار خلال ٤٨ ساعة من تقديم الطلب.",en:"To confirm a booking, a deposit of 30% of the rental value must be transferred within 48 hours of the request."},
+      {ar:"في حال عدم سداد مبلغ التأكيد خلال ٤٨ ساعة، يُلغى الحجز تلقائياً وتُتاح التواريخ من جديد.",en:"If the deposit is not paid within 48 hours, the booking is cancelled automatically and the dates become available again."},
+      {ar:"يُسدّد المبلغ المتبقي (٧٠٪) عند الوصول، ما لم يُتفق على غير ذلك.",en:"The remaining balance (70%) is paid upon arrival, unless otherwise agreed."},
+      {ar:"يتم تأكيد الحجز نهائياً من إدارة منازل الود بعد استلام مبلغ التأكيد.",en:"The booking is finally confirmed by Manazil Alwed after the deposit is received."}
+    ]
+  },
+  {
+    t:{ar:"الإلغاء واسترداد المبالغ",en:"Cancellation & refunds"},
+    points:[
+      {ar:"يمكن إلغاء الحجز حتى ٣ أيام قبل موعد الوصول.",en:"A booking may be cancelled up to 3 days before the arrival date."},
+      {ar:"لا يُسترد مبلغ التأكيد (العربون) في حال الإلغاء بعد هذا الموعد أو في حال عدم الحضور.",en:"The deposit is non-refundable for cancellations after that date or in the case of a no-show."}
+    ]
+  },
+  {
+    t:{ar:"أوقات الدخول والخروج",en:"Check-in & check-out"},
+    points:[
+      {ar:"تسجيل الدخول من الساعة ٤:٠٠ مساءً، وتسجيل الخروج حتى الساعة ١٢:٠٠ ظهراً.",en:"Check-in from 4:00 PM, and check-out by 12:00 PM (noon)."},
+      {ar:"الدخول المبكر أو الخروج المتأخر متاحان حسب التوفّر وبالاتفاق المسبق مع الإدارة.",en:"Early check-in or late check-out are subject to availability and prior arrangement with management."},
+      {ar:"يلتزم النزيل بتسليم الشقة في الموعد المتفق عليه عند الخروج.",en:"The guest agrees to vacate the apartment at the agreed time on departure."}
+    ]
+  },
+  {
+    t:{ar:"استخدام الشقة وعدد النزلاء",en:"Use of the apartment & occupancy"},
+    points:[
+      {ar:"تُستخدم الشقة لأغراض الإقامة فقط، وبعدد النزلاء المتفق عليه عند الحجز.",en:"The apartment is for residential stay only, with the number of guests agreed at the time of booking."},
+      {ar:"لا يجوز التنازل عن الحجز أو تأجير الشقة من الباطن للغير.",en:"The booking may not be transferred or the apartment sublet to others."},
+      {ar:"يحق للإدارة طلب إثبات هوية ساري المفعول لجميع النزلاء، وتسجيل الإقامة وفق الأنظمة المعمول بها.",en:"Management may request valid identification for all guests and register the stay in line with applicable regulations."}
+    ]
+  },
+  {
+    t:{ar:"المحافظة على محتويات الشقة",en:"Care of the apartment"},
+    points:[
+      {ar:"يلتزم النزيل بالمحافظة على محتويات الشقة وأثاثها وأجهزتها واستخدامها بشكل سليم.",en:"The guest agrees to take care of the apartment's contents, furniture and appliances and to use them properly."},
+      {ar:"يجب الإبلاغ فوراً عن أي عطل أو ضرر يحدث أثناء الإقامة.",en:"Any fault or damage occurring during the stay must be reported immediately."},
+      {ar:"يتحمّل النزيل تكلفة أي ضرر أو فقد أو كسر ناتج عن سوء الاستخدام أو الإهمال.",en:"The guest is responsible for the cost of any damage, loss or breakage resulting from misuse or negligence."}
+    ]
+  },
+  {
+    t:{ar:"حسن السلوك والالتزام بالهدوء",en:"Good conduct & quiet hours"},
+    points:[
+      {ar:"يلتزم النزيل بحسن التصرف داخل المنشأة واحترام بقية النزلاء والجيران والنظام العام للمبنى.",en:"The guest agrees to behave appropriately within the property and to respect other guests, neighbours and the building's general rules."},
+      {ar:"الالتزام بالهدوء التام من الساعة ١:٠٠ صباحاً وحتى الساعة ٦:٠٠ صباحاً تجنباً لإزعاج الآخرين.",en:"Complete quiet must be observed from 1:00 AM until 6:00 AM to avoid disturbing others."}
+    ]
+  },
+  {
+    t:{ar:"الأنشطة الممنوعة",en:"Prohibited activities"},
+    points:[
+      {ar:"يُمنع إقامة الحفلات أو التجمعات غير القانونية أو المخالفة للأنظمة داخل الشقة أو المبنى.",en:"Parties or gatherings that are unlawful or in breach of regulations are not permitted in the apartment or building."},
+      {ar:"يُمنع منعاً باتاً استخدام أو حيازة أو ترويج المواد المخدرة أو الممنوعة وفق أنظمة المملكة العربية السعودية.",en:"The use, possession or distribution of narcotics or prohibited substances is strictly forbidden under the regulations of the Kingdom of Saudi Arabia."},
+      {ar:"يُمنع التدخين داخل الشقة، ويُسمح به في الأماكن المخصصة إن وُجدت.",en:"Smoking inside the apartment is not allowed; it is permitted only in designated areas, if any."},
+      {ar:"يُمنع أي نشاط مخالف لأنظمة المملكة أو يسبب إزعاجاً أو إضراراً بالممتلكات.",en:"Any activity that violates the Kingdom's regulations or causes nuisance or damage to property is prohibited."}
+    ]
+  },
+  {
+    t:{ar:"المسؤولية وإنهاء الإقامة",en:"Liability & termination of stay"},
+    points:[
+      {ar:"إدارة منازل الود غير مسؤولة عن الممتلكات الشخصية للنزلاء داخل الشقة أو المبنى.",en:"Manazil Alwed is not responsible for guests' personal belongings inside the apartment or building."},
+      {ar:"يحق للإدارة إنهاء الإقامة فوراً وإخراج النزيل في حال مخالفة أيٍّ من هذه الشروط، دون استرداد المبالغ المدفوعة.",en:"Management reserves the right to terminate the stay immediately and require the guest to leave in case of any breach of these terms, without refund of amounts paid."}
+    ]
+  },
+  {
+    t:{ar:"تعديل الشروط",en:"Changes to these terms"},
+    points:[
+      {ar:"تحتفظ منازل الود بحق تحديث هذه الشروط والأحكام في أي وقت، ويُعمل بالنسخة المنشورة على الموقع وقت الحجز.",en:"Manazil Alwed reserves the right to update these terms at any time; the version published on the website at the time of booking applies."}
+    ]
+  }
+];
+
+let lang='ar';
+function render(){
+  const box=document.getElementById('legal');
+  box.innerHTML=SECTIONS.map((s,i)=>{
+    const lead=s.lead?`<p class="lead">${s.lead[lang]}</p>`:'';
+    const pts=s.points.map(p=>`<li>${p[lang]}</li>`).join('');
+    return `<section class="sec"><h2><span class="n">${lang==='ar'?toAr(i+1):(i+1)}</span><span>${s.t[lang]}</span></h2>${lead}<ul>${pts}</ul></section>`;
+  }).join('');
+}
+const toAr=(s)=>String(s).replace(/[0-9]/g,d=>"٠١٢٣٤٥٦٧٨٩"[d]);
+function applyLang(){
+  const d=I18N[lang];
+  document.documentElement.lang=lang;
+  document.documentElement.dir=(lang==='ar')?'rtl':'ltr';
+  document.body.classList.toggle('lang-ar', lang==='ar');
+  document.body.classList.toggle('lang-en', lang==='en');
+  document.title=d.metaTitle;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{ const v=d[el.getAttribute('data-i18n')]; if(v!=null) el.innerHTML=v; });
+  render();
+}
+const setLang=(l)=>{ lang=l; applyLang(); };
+document.querySelectorAll('.lang-toggle').forEach(b=>b.addEventListener('click',e=>{ e.preventDefault(); setLang(lang==='ar'?'en':'ar'); }));
+const drawer=document.getElementById('drawer');
+document.getElementById('burger').addEventListener('click',()=>drawer.classList.add('open'));
+document.getElementById('drawerClose').addEventListener('click',()=>drawer.classList.remove('open'));
+drawer.addEventListener('click',e=>{ if(e.target===drawer) drawer.classList.remove('open'); });
+drawer.querySelectorAll('a:not(.lang-toggle)').forEach(a=>a.addEventListener('click',()=>drawer.classList.remove('open')));
+applyLang();
+</script>
+</body>
+</html>

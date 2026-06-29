@@ -5,15 +5,18 @@
      مع تحديث الصورة في الخلفية بهدوء (stale-while-revalidate)
    ============================================================ */
 
-const CACHE_NAME = 'manazil-alwed-v2';
+const CACHE_NAME = 'manazil-alwed-v5';
 
 /* الملفات الأساسية التي نخزّنها عند التثبيت */
 const CORE_ASSETS = [
   './',
   './index.html',
   './offers.html',
+  './book.html',
   './checkin.html',
   './apartment.html',
+  './terms.html',
+  './privacy.html',
   './manifest.json',
   './favicon.svg',
   './icons/icon-192.png',
